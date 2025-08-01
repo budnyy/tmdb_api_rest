@@ -1,5 +1,17 @@
 {% extends "base.html" %}
 {% block title %}MOVIE INFO{% endblock %}
 {% block content %}
-
+    {% for i in info %}
+        <div class="container bg-secondary text-white rounded">
+            <h1>{{i.title}}</h1>
+            <img src="https://image.tmdb.org/t/p/w500/{{i.backdrop_path}}" class="img-fluid" alt="{{i.title}}">
+            <img src="https://image.tmdb.org/t/p/w500/{{i.poster_path}}" class="img-fluid" alt="{{i.title}}">
+            <p>Original Language: {{i.original_language}}</p>
+            <p>Release date: {{i.release_date}}</p>
+            {% if i.vote_average is defined and i.average is not none %}
+                <p>Users average review: {{10*i.vote_average|round(1)}}%, with {{i.vote_count}} votes</p>
+            {% endif %}
+            <p>{{i.overview}}</p>
+        </div>
+    {% endfor %}
 {% endblock %}
