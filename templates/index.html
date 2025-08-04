@@ -3,7 +3,16 @@
 {% block content %}
 Welcome to my TMDb REST API!
 <form action="#" method="post">
-    <input type="text" placeholder="Enter a movie title" name="search_title" class="form-control">
+    <input type="text" placeholder="Enter a movie title" name="search_title" class="form-control align-middle">
+    <select class="form-select form-select-sm" aria-label="Small select example" name="lang">
+        <option selected>Choose a language</option>
+        {% for lang in languages %}
+            {% if lang.name is defined and lang.name is not none %}
+                <option value={{lang.iso_639_1}}>{{lang.english_name}}({{lang.iso_639_1}})</option>
+            {% endif %}
+        {% endfor %}
+    </select>
     <input type="submit" value="submit">
 </form>
+<p class="text-white">{{languages}}</p>
 {% endblock %}
