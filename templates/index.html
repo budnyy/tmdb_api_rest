@@ -1,18 +1,18 @@
 {% extends "base.html" %}
 {% block title %}Home Page{% endblock %}
 {% block content %}
-Welcome to my TMDb REST API!
     <a href={{url_for('login')}} class="btn btn-primary">Log in</a>
     <a href={{url_for('register')}} class="btn btn-primary">Register</a>
-    <form action="#" method="post">
-        <div class="flex-fill">
-            <input type="text" placeholder="Enter a movie title" name="search_title" class="form-control justify-center">
-        </div>
-        <select class="form-select-sm" aria-label="Small select example" name="lang">
-            <option selected>en-US</option>
-            {% for lang in languages %}
-                <option value={{lang}}>{{lang}}</option>
-            {% endfor %}
-        </select>
-    </form>
+        Welcome to my TMDb REST API!
+        <form action="#" method="post">
+            <div class="flex-fill">
+                <input type="text" placeholder="Enter a movie title" name="search_title" class="form-control justify-center">
+            </div>
+            <select class="form-select-sm" aria-label="Small select example" name="lang">
+                <option selected>en-US</option>
+                {% for lang in languages %}
+                    <option value={{lang}}>{{lang}}</option>
+                {% endfor %}
+            </select>
+        </form>
 {% endblock %}

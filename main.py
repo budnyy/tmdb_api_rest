@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, get_flashed_messages
-from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user
+from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user, current_user
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from datetime import timedelta
@@ -71,6 +71,7 @@ def register():
             db.session.commit()
 
             login_user(new_user)
+            return redirect(url_for("user",user=new_user.name))
         
         else:
             flash("Username already in use")
@@ -97,12 +98,33 @@ def login():
             return redirect(url_for("login"))
     else:
         return render_template("login.html")
-    
+
+@app.route("/profile")
+@login_required
+def profile():
+    return redirect(url_for("user", user=current_user.name))
+
+@app.route("/search")
+def search():
+    search_user_name = request.args["search_user"]
+    search_user = User.query.filter_by(name=search_user_name).first()
+    if search_user:
+        return redirect(url_for("user", user=search_user.name))
+    else:
+        flash("User not found! :(")
+        return redirect(url_for("home"))
 
 @app.route("/<user>")
-@login_required
 def user(user):
-    return render_template("user.html", name=user)
+    user_found = User.query.filter_by(name=user).first()
+
+    if user_found:
+        if user_found == current_user:
+            return render_template("user.html", user=user_found, admin=True)
+        else:
+            return render_template("user.html", user=user_found, admin=False)
+    else:
+        return f"Something went wrong! Try again later"
 
 
 @app.route("/view")
@@ -112,7 +134,9 @@ def view():
 @app.route("/logout")
 @login_required
 def logout():
-    return logout_user()
+    flash("Logged out!")
+    logout_user()
+    return redirect("/")
 
 @app.route("/movie/<lang>/<title>")
 def moviepage(title, lang):

@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 {% block title %}USER{% endblock %}
 {% block content %}
-    <p>{{name}}</p>
+    <div class="container bg-secondary text-white rounded">
+        <p>{{user.name}}</p>
+        {% if admin==True %}
+            <p>your account :)</p>
+        {% endif %}
+    </div>
 {% endblock %}
