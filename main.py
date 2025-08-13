@@ -1,6 +1,11 @@
 from config import db, request, redirect, url_for, render_template, requests, lm, app, bcrypt, api_key, login_user, login_required, flash, dummy_hash, current_user, logout_user, languages_url, headers
 from classes import User
 
+@lm.user_loader
+def user_loader(id):
+    user = db.session.query(User).filter_by(id=id).first()
+    return user
+
 @app.route("/", methods=["POST", "GET"])
 def home():
     if request.method == "POST":
