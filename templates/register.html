@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}REGISTER{% endblock %}
+{% block content %}
+<h1>REGISTER</h1>
+    <p>This register page is only experimental to work with database, no user auth is required</p>
+    <form action="#" method="post">
+        <input type="text" name="nm" placeholder="Name">
+        <input type="email" name="email" placeholder="Email">
+        <input type="password" name="password" placeholder="password">
+        <button type="submit">Submit</button>
+    </form>
+    <a href="{{url_for('login')}}">Already have an account? Log in</a>
+{% endblock %}
