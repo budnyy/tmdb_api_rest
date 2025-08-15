@@ -7,4 +7,11 @@
             <p>your account :)</p>
         {% endif %}
     </div>
+    <h1>Favorite Movies</h1>
+    {% for movie in favorites %}
+    <div class="container bg-secondary text-white rounded">
+        <h1>{{movie.title}} ({{movie.release_date}})</h1>
+        <img src="https://image.tmdb.org/t/p/w300/{{movie.poster_path}}" class="img-fluid" alt="{{movie.title}}">
+    </div>
+    {% endfor %}
 {% endblock %}

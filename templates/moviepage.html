@@ -4,6 +4,14 @@
     {% for i in info %}
         <div class="container bg-secondary text-white rounded">
             <h1>{{i.title}}</h1>
+            {% if logged_in %}
+                <form action="{{url_for('favorite')}}" method="post">
+                    <input type="hidden" name="fav_id" value={{i.id}}>
+                    <input type="hidden" name="title" value={{title}}>
+                    <input type="hidden" name="lang" value={{lang}}>
+                    <button type="submit" class="btn btn-warning"  href="{{url_for('favorite')}}">Add to favorites</button>
+                </form>
+            {% endif %}
             <img src="https://image.tmdb.org/t/p/w500/{{i.backdrop_path}}" class="img-fluid" alt="{{i.title}}">
             <img src="https://image.tmdb.org/t/p/w500/{{i.poster_path}}" class="img-fluid" alt="{{i.title}}">
             <p>Original Language: {{i.original_language}}</p>
