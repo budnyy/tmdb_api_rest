@@ -83,7 +83,7 @@ def user(user):
         if user_found == current_user:
             return render_template("user.html", user=user_found, admin=True, favorites=current_user.fav_movies)
         else:
-            return render_template("user.html", user=user_found, admin=False, favorites=current_user.fav_movies)
+            return render_template("user.html", user=user_found, admin=False, favorites=user_found.fav_movies)
     else:
         return f"Something went wrong! Try again later"
 

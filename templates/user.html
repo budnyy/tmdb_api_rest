@@ -2,16 +2,20 @@
 {% block title %}USER{% endblock %}
 {% block content %}
     <div class="container bg-secondary text-white rounded">
-        <p>{{user.name}}</p>
+        <h1>{{user.name}}</h1>
         {% if admin==True %}
             <p>your account :)</p>
         {% endif %}
     </div>
     <h1>Favorite Movies</h1>
     {% for movie in favorites %}
-    <div class="container bg-secondary text-white rounded">
-        <h1>{{movie.title}} ({{movie.release_date}})</h1>
-        <img src="https://image.tmdb.org/t/p/w300/{{movie.poster_path}}" class="img-fluid" alt="{{movie.title}}">
+    <div class="d-flex p-2 bg-secondary text-white rounded">
+        <img src="https://image.tmdb.org/t/p/w300/{{movie.poster_path}}" width="100" class="img-fluid" alt="{{movie.title}}">
+        <div class="d-flex align-items-start flex-column mb-3">
+            <div class="p-2"><h1>{{movie.title}}</h1></div>
+            <div class="p-2"><p>({{movie.release_date}})</p>
+        </div>
+       </div>
     </div>
     {% endfor %}
 {% endblock %}
