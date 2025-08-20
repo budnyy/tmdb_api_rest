@@ -1,4 +1,4 @@
-from config import db, request, redirect, url_for, render_template, requests, lm, app, bcrypt, api_key, login_user, login_required, flash, dummy_hash, current_user, logout_user, languages_url, headers
+from config import db, request, redirect, url_for, render_template, requests, lm, app, bcrypt, api_key, login_user, login_required, flash, dummy_hash, current_user, logout_user, languages_url, headers, trending_url
 from classes import User, MovieCache
 
 @lm.user_loader
@@ -8,12 +8,15 @@ def user_loader(id):
 
 @app.route("/", methods=["POST", "GET"])
 def home():
+    languages_response = requests.get(languages_url, headers=headers).json()
+    trending_response = requests.get(trending_url, headers=headers).json()
     if request.method == "POST":
         search_title = request.form["search_title"]
         lang = request.form["lang"]
         return redirect(url_for("moviepage", title = search_title, lang=lang))
     else:
-        return render_template("index.html", languages = requests.get(languages_url, headers=headers).json())
+
+        return render_template("index.html", languages = languages_response, trending = trending_response["results"])
     
 @app.route("/register", methods=["POST","GET"])
 def register():
@@ -87,11 +90,6 @@ def user(user):
     else:
         return f"Something went wrong! Try again later"
 
-
-@app.route("/view")
-def view():
-    return render_template("view.html", values = User.query.all())
-
 @app.route("/logout")
 @login_required
 def logout():
@@ -116,6 +114,11 @@ def moviepage(title, lang):
             return render_template("moviepage.html", info=results, logged_in=current_user, title=title, lang=lang)
         except IndexError:
             return f"No results :("
+
+@app.route("/movie/details/<id>")
+def details(id):
+    return f"details"
+
 
 @app.route("/movie/favorite", methods=["POST"])
 def favorite():

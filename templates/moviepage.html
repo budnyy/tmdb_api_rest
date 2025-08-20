@@ -17,7 +17,7 @@
             <p>Original Language: {{i.original_language}}</p>
             <p>Release date: {{i.release_date}}</p>
             {% if i.vote_average is defined and i.average is not none %}
-                <p>Users average review: {{10*i.vote_average|round(1)}}%, with {{i.vote_count}} votes</p>
+                <p>Users average review: {{10*i.vote_average|round(0)}}%, with {{i.vote_count}} votes</p>
             {% endif %}
             <p>{{i.overview}}</p>
         </div>

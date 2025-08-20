@@ -23,6 +23,7 @@ db = SQLAlchemy(app)
 
 dummy_hash = bcrypt.generate_password_hash('dummy_password')
 
+trending_url = "https://api.themoviedb.org/3/trending/movie/day?language=en-US"
 languages_url = "https://api.themoviedb.org/3/configuration/primary_translations"
 headers = {
     "accept": "application/json",
