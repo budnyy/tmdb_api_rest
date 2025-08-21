@@ -13,7 +13,7 @@ def home():
     if request.method == "POST":
         search_title = request.form["search_title"]
         lang = request.form["lang"]
-        return redirect(url_for("moviepage", title = search_title, lang=lang))
+        return redirect(url_for("moviepage", title=search_title, lang=lang, page=1))
     else:
 
         return render_template("index.html", languages = languages_response, trending = trending_response["results"])
@@ -97,11 +97,12 @@ def logout():
     logout_user()
     return redirect("/")
 
-@app.route("/movie/<lang>/<title>")
-def moviepage(title, lang):
-        response = requests.get(f"https://api.themoviedb.org/3/search/movie?query={title}&include_adult=false&language={lang}&page=1", headers=headers)
+@app.route("/movie/<lang>/<title>/<page>")
+def moviepage(title, lang, page=1):
+        response = requests.get(f"https://api.themoviedb.org/3/search/movie?query={title}&include_adult=false&language={lang}&page={page}", headers=headers)
         movie_info = response.json()
         results = movie_info["results"]
+        page = movie_info["page"]
 
         for movie in results:
             search_movie = MovieCache.query.filter_by(tmdb_id=movie["id"]).first()
@@ -111,13 +112,14 @@ def moviepage(title, lang):
                 db.session.commit()
 
         try:
-            return render_template("moviepage.html", info=results, logged_in=current_user, title=title, lang=lang)
+            return render_template("moviepage.html", info=results, logged_in=current_user.is_authenticated, title=title, lang=lang, page=page, max_pages = movie_info["total_pages"])
         except IndexError:
             return f"No results :("
 
 @app.route("/movie/details/<id>")
 def details(id):
-    return f"details"
+    details_response = requests.get(f"https://api.themoviedb.org/3/movie/{id}", headers=headers).json()
+    return render_template("moviedetails.html", movie=details_response)
 
 
 @app.route("/movie/favorite", methods=["POST"])

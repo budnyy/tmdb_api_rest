@@ -1,6 +1,20 @@
 {% extends "base.html" %}
+{% block title %}DETAILS{% endblock %}
 {% block content %}
-<div class="container">
-    
+<div class="container bg-secondary rounded-3">
+    <h1>{{movie.title}}</h1>
+    <img src="https://image.tmdb.org/t/p/w500/{{movie.poster_path}}" alt="{{movie.title}}" class="img-fluid">
+    <p>
+        <b>Overview:</b> {{movie.overview}}<br>
+        <b>Release date:</b> {{movie.release_date}}<br>
+        <b>Runtime:</b> {{movie.runtime}} min<br>
+        <b>Genres:</b> 
+    {% for item in movie.genres %} 
+        {{item.name}}       
+    {% endfor %}
+        <br>
+        <b>Budget / Revenue:</b> U${{movie.budget}} / U${{movie.revenue}}
+        <b>Popularity:</b> {{(movie.vote_average * 10)|round(0)}}% with {{movie.vote_count}} votes
+    </p>
 </div>
 {% endblock %}

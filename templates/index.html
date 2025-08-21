@@ -19,6 +19,7 @@
         </form>
     </div>
 
+    <h1>Trending Movies</h1>
     <div id="carouselExample" class="carousel slide">
     <div class="carousel-inner">
         {% for slide in trending|batch(5, None) %}
@@ -42,8 +43,9 @@
                     
               <div class="fw-semibold">{{ item.title }}</div>
               <div class="text-muted small">
-                {{ item.release_date }} • {{ (item.vote_average * 10)|round(0) }}%
+                {{item.release_date}} • {{(item.vote_average * 10)|round(0)}}%
               </div>
+              <a href="{{url_for('details', id=item.id)}}" class="btn btn-primary">View details</a>
             </div>
         </div>
           {% endif %}
